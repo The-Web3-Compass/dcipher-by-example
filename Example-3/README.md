@@ -1,4 +1,4 @@
-# dCipher Randomness Demo - DiceRoller
+# dcipher Randomness Demo - DiceRoller
 
 A demonstration project showcasing how to integrate [dCipher's verifiable randomness oracle](https://dcipher.io) into Ethereum smart contracts. This project implements a simple dice rolling application that uses cryptographically secure, verifiable random numbers on-chain.
 
