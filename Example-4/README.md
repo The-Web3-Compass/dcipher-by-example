@@ -110,36 +110,6 @@ Open [http://localhost:5173](http://localhost:5173) in your browser.
 6. Winner is automatically selected and paid
 7. Click "🔄 Start New Lottery" to restart
 
-## 📝 Smart Contract Functions
-
-### Public Functions
-- `buyTicket()` - Purchase a lottery ticket
-- `closeLotteryAndRequestRandomness()` - Close lottery and request random winner (organizer only)
-- `restartLottery()` - Reset lottery for new round (organizer only)
-- `cancelAndRefund()` - Refund all players if randomness times out
-
-### View Functions
-- `ticketPrice()` - Get ticket price (0.01 ETH)
-- `getPlayerCount()` - Get number of players
-- `getPotSize()` - Get current prize pool
-- `isLotteryOpen()` - Check if lottery is accepting tickets
-- `winner()` - Get winner address (after selection)
-
-## 🔐 Security Features
-
-- ✅ Only organizer can close lottery
-- ✅ Verifiable randomness from dcipher
-- ✅ Automatic prize distribution
-- ✅ Timeout protection with refund mechanism
-- ✅ No central point of failure
-
-## 🌐 Network Information
-
-**Base Sepolia Testnet**
-- Chain ID: `84532`
-- RPC URL: `https://sepolia.base.org`
-- Block Explorer: [https://sepolia.basescan.org](https://sepolia.basescan.org)
-- dcipher RandomnessSender: `0xf4e080Db4765C856c0af43e4A8C4e31aA3b48779`
 
 ## 📚 Learn More
 
