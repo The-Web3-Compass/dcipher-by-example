@@ -47,7 +47,7 @@ function App() {
               style={{
                 left: `${Math.random() * 100}%`,
                 top: `-${Math.random() * 20}px`,
-                background: ['#6366f1', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981'][Math.floor(Math.random() * 5)],
+                background: ['#ff5000', '#ff7700', '#ffaa00', '#ffffff', '#000000'][Math.floor(Math.random() * 5)],
                 animationDelay: `${Math.random() * 3}s`,
                 animationDuration: `${3 + Math.random() * 2}s`
               }}
@@ -91,7 +91,7 @@ function App() {
         )}
 
         <div className="footer">
-          <p>Built with <a href="https://dcipher.network" target="_blank" rel="noopener noreferrer">dcipher</a></p>
+          <p>Built on <a href="https://dcipher.network" target="_blank" rel="noopener noreferrer">dcipher</a> by <a href="https://web3compass.xyz" target="_blank" rel="noopener noreferrer">web3compass</a></p>
         </div>
       </div>
     </>
