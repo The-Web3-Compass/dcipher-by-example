@@ -1,10 +1,13 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useAccount, useReadContract, useWriteContract, useWatchContractEvent, useBlockNumber, useWalletClient } from 'wagmi';
+import { useAccount, useReadContract, useWriteContract, useWatchContractEvent, useBlockNumber, useWalletClient, useChainId } from 'wagmi';
 import { parseEther, encodeFunctionData, decodeFunctionResult } from 'viem';
 import { ethers } from 'ethers';
 import { Blocklock, encodeCiphertextToSolidity, encodeParams } from 'blocklock-js';
 import { GIFT_MESSAGE_ABI } from '../abi';
-import { CONTRACT_ADDRESS, DEFAULT_CALLBACK_GAS_LIMIT, DEFAULT_DECRYPTION_PAYMENT } from '../config';
+import { CONTRACT_ADDRESS, DEFAULT_CALLBACK_GAS_LIMIT, DEFAULT_DECRYPTION_PAYMENT, BASE_SEPOLIA_RPC } from '../config';
+
+// JSON RPC provider for blocklock (not MetaMask)
+const jsonRpcProvider = new ethers.JsonRpcProvider(BASE_SEPOLIA_RPC);
 
 export interface Ciphertext {
   u: { x: readonly [bigint, bigint]; y: readonly [bigint, bigint] };
@@ -27,10 +30,13 @@ export function useGiftMessages() {
   const { address } = useAccount();
   const { data: walletClient } = useWalletClient();
   const { data: currentBlock } = useBlockNumber({ watch: true });
+  const chainId = useChainId();
   
   const [userMessages, setUserMessages] = useState<Message[]>([]);
   const [isLoadingMessages, setIsLoadingMessages] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [decryptingMessageId, setDecryptingMessageId] = useState<bigint | null>(null);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
   
   const { data: userMessageIds, refetch: refetchMessageIds } = useReadContract({
     address: CONTRACT_ADDRESS,
@@ -64,8 +70,9 @@ export function useGiftMessages() {
     eventName: 'MessageRevealed',
     onLogs(logs) {
       console.log('🎉 MessageRevealed event received!', logs);
-      // Refetch messages when a message is revealed
-      refetchMessageIds();
+      // Trigger refetch of message data (not just IDs)
+      setRefreshTrigger(prev => prev + 1);
+      setDecryptingMessageId(null);
     },
   });
   
@@ -154,7 +161,7 @@ export function useGiftMessages() {
     }
     
     fetchMessages();
-  }, [userMessageIds]);
+  }, [userMessageIds, refreshTrigger]);
   
   const createMessage = useCallback(async (
     recipient: string,
@@ -169,11 +176,9 @@ export function useGiftMessages() {
     setError(null);
     
     try {
-      // Encode message and encrypt with blocklock
+      // Encode message and encrypt with blocklock using JSON RPC provider (not MetaMask)
       const encoded = encodeParams(['string'], [messageText]);
-      const provider = new ethers.BrowserProvider(walletClient.transport);
-      const signer = await provider.getSigner();
-      const blocklock = Blocklock.createBaseSepolia(signer);
+      const blocklock = Blocklock.createFromChainId(jsonRpcProvider, chainId);
       
       const encrypted = blocklock.encrypt(
         ethers.getBytes(encoded),
@@ -212,10 +217,11 @@ export function useGiftMessages() {
       console.error('Encryption error:', err);
       setError(err instanceof Error ? err.message : 'Encryption failed');
     }
-  }, [walletClient, address, writeCreateMessage]);
+  }, [walletClient, address, writeCreateMessage, chainId]);
   
   const requestDecryption = useCallback((messageId: bigint, ciphertext: Ciphertext) => {
     setError(null);
+    setDecryptingMessageId(messageId);
     writeRequestDecrypt({
       address: CONTRACT_ADDRESS,
       abi: GIFT_MESSAGE_ABI,
@@ -229,6 +235,7 @@ export function useGiftMessages() {
     resetCreate();
     resetDecrypt();
     setError(null);
+    setDecryptingMessageId(null);
   }, [resetCreate, resetDecrypt]);
   
   return {
@@ -243,6 +250,7 @@ export function useGiftMessages() {
     isLoadingMessages,
     isCreating,
     isDecrypting,
+    decryptingMessageId,
     
     createSuccess,
     decryptSuccess,

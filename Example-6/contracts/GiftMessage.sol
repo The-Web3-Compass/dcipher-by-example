@@ -76,7 +76,8 @@ contract GiftMessage is AbstractBlocklockReceiver {
         require(block.number >= msg_.revealBlock, "Reveal block not reached yet");
         require(!msg_.revealed, "Message already revealed");
         
-        bytes memory condition = abi.encode(msg_.revealBlock);
+        // Encode condition with 'B' prefix (0x42) as expected by dcipher network
+        bytes memory condition = abi.encodePacked(bytes1(0x42), abi.encode(msg_.revealBlock));
         
         (uint256 requestId, uint256 requestPrice) = _requestBlocklockPayInNative(
             callbackGasLimit,

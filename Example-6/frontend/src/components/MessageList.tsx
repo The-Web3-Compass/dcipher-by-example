@@ -1,6 +1,7 @@
 import { useAccount, useBlockNumber } from 'wagmi';
 import { useGiftMessages, Message, Ciphertext } from '../hooks/useGiftMessages';
 import { formatBlocksRemaining } from '../utils/blocktime';
+import { DEFAULT_DECRYPTION_PAYMENT } from '../config';
 
 export function MessageList() {
   const { address } = useAccount();
@@ -8,7 +9,7 @@ export function MessageList() {
   const { 
     userMessages, 
     requestDecryption, 
-    isDecrypting, 
+    decryptingMessageId, 
     isLoadingMessages,
     decryptSuccess,
     error 
@@ -74,7 +75,7 @@ export function MessageList() {
             currentBlock={currentBlockNum}
             isRecipient={true}
             onDecrypt={requestDecryption}
-            isDecrypting={isDecrypting}
+            decryptingMessageId={decryptingMessageId}
           />
         ))
       )}
@@ -94,7 +95,7 @@ export function MessageList() {
             currentBlock={currentBlockNum}
             isRecipient={false}
             onDecrypt={requestDecryption}
-            isDecrypting={isDecrypting}
+            decryptingMessageId={decryptingMessageId}
           />
         ))
       )}
@@ -107,12 +108,13 @@ interface MessageCardProps {
   currentBlock: number;
   isRecipient: boolean;
   onDecrypt: (messageId: bigint, ciphertext: Ciphertext) => void;
-  isDecrypting: boolean;
+  decryptingMessageId: bigint | null;
 }
 
-function MessageCard({ message, currentBlock, isRecipient, onDecrypt, isDecrypting }: MessageCardProps) {
+function MessageCard({ message, currentBlock, isRecipient, onDecrypt, decryptingMessageId }: MessageCardProps) {
   const blocksRemaining = Number(message.revealBlock) - currentBlock;
   const canDecrypt = isRecipient && blocksRemaining <= 0 && !message.revealed;
+  const isThisDecrypting = decryptingMessageId === message.id;
   
   const truncateAddress = (addr: string) => 
     `${addr.slice(0, 6)}...${addr.slice(-4)}`;
@@ -150,16 +152,16 @@ function MessageCard({ message, currentBlock, isRecipient, onDecrypt, isDecrypti
         {canDecrypt && (
           <button
             onClick={() => onDecrypt(message.id, message.encryptedMessage)}
-            disabled={isDecrypting}
+            disabled={decryptingMessageId !== null}
             style={{ marginTop: '12px' }}
           >
-            {isDecrypting ? (
+            {isThisDecrypting ? (
               <>
                 <span className="loading"></span>
                 Requesting Decryption...
               </>
             ) : (
-              '🔑 Request Decryption (0.001 ETH)'
+              `🔑 Request Decryption (${DEFAULT_DECRYPTION_PAYMENT} ETH)`
             )}
           </button>
         )}
