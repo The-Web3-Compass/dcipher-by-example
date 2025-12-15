@@ -26,22 +26,14 @@ function App() {
     return (
       <>
         <Snowflakes />
-        <div className="container connect-screen">
-          <h1>Secret Santa Messages</h1>
-          <p>Send encrypted gift messages that reveal at a future block height</p>
-          <p style={{ fontSize: '0.9rem', color: '#666', marginBottom: '20px' }}>
-            Powered by dcipher blocklock encryption
-          </p>
-          <button onClick={() => connect({ connector: connectors[0] })}>
-            Connect Wallet
-          </button>
-          <div style={{ marginTop: '40px', textAlign: 'left', maxWidth: '500px', margin: '40px auto' }}>
-            <h3 style={{ marginBottom: '12px', color: '#ff6b6b' }}>📚 What is Blocklock?</h3>
-            <p style={{ color: '#aaa', lineHeight: '1.6', fontSize: '0.95rem' }}>
-              Blocklock encryption allows you to encrypt data that can only be decrypted 
-              after a specific blockchain block height is reached. This enables time-locked 
-              secrets without trusting any third party!
-            </p>
+        <div className="connect-wrapper">
+          <div className="connect-card">
+            <h1>Secret Santa Messages</h1>
+            <p className="subtitle">Send encrypted gift messages that reveal at a future block height</p>
+            <p className="powered-by">Powered by dcipher blocklock encryption</p>
+            <button onClick={() => connect({ connector: connectors[0] })}>
+              🎁 Connect Wallet
+            </button>
           </div>
         </div>
       </>

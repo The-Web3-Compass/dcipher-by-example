@@ -329,27 +329,67 @@ footer {
   font-size: 0.85rem;
 }
 
-.connect-screen {
-  text-align: center;
-  padding: 80px 20px;
+.connect-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
 }
 
-.connect-screen h1 {
-  font-size: 2.5rem;
+.connect-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+  padding: 50px 40px;
+  text-align: center;
+  max-width: 520px;
+  width: 100%;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.connect-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 24px;
+  padding: 2px;
+  background: linear-gradient(90deg, transparent, rgba(255,215,0,0.6), rgba(255,223,0,0.8), rgba(255,215,0,0.6), transparent);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: borderShimmer 3s linear infinite;
+  background-size: 200% 100%;
+}
+
+@keyframes borderShimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.connect-card h1 {
+  font-size: 1.9rem;
   margin-bottom: 16px;
   background: linear-gradient(90deg, #ff4757, #ff6b81, #ffa502);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   animation: glow 2s ease-in-out infinite alternate;
+  white-space: nowrap;
 }
 
-.connect-screen h1::before {
+.connect-card h1::before {
   content: '🎄 ';
   -webkit-text-fill-color: initial;
 }
 
-.connect-screen h1::after {
+.connect-card h1::after {
   content: ' 🎄';
   -webkit-text-fill-color: initial;
 }
@@ -359,10 +399,17 @@ footer {
   to { text-shadow: 0 0 30px rgba(255, 107, 129, 0.5), 0 0 40px rgba(255, 165, 2, 0.3); }
 }
 
-.connect-screen p {
-  color: #aaa;
-  margin-bottom: 30px;
-  font-size: 1.1rem;
+.connect-card .subtitle {
+  color: #ccc;
+  margin-bottom: 12px;
+  font-size: 1.05rem;
+  line-height: 1.5;
+}
+
+.connect-card .powered-by {
+  color: #888;
+  font-size: 0.85rem;
+  margin-bottom: 28px;
 }
 
 .error-message {
