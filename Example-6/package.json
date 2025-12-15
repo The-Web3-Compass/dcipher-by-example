@@ -1,0 +1,23 @@
+{
+  "name": "secret-santa-messages",
+  "version": "1.0.0",
+  "description": "Secret Santa Time-Locked Messages DApp using dcipher blocklock encryption",
+  "scripts": {
+    "compile": "hardhat compile",
+    "deploy": "hardhat run scripts/deploy.js --network baseSepolia",
+    "copy-abi": "node scripts/copyAbi.js",
+    "frontend:dev": "cd frontend && npm run dev",
+    "frontend:build": "cd frontend && npm run build"
+  },
+  "keywords": ["dcipher", "blocklock", "encryption", "time-locked"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^6.1.0",
+    "hardhat": "^2.27.2"
+  },
+  "dependencies": {
+    "blocklock-solidity": "^0.0.13",
+    "dotenv": "^17.2.3"
+  }
+}

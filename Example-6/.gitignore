@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+
+# Hardhat
+cache/
+artifacts/
+
+# Environment
+.env
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+
+# TypeChain (if used)
+typechain/
+typechain-types/
+
+# Frontend build
+frontend/dist/
