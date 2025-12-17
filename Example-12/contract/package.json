@@ -1,0 +1,20 @@
+{
+  "name": "sealed-bid-marketplace-contract",
+  "version": "1.0.0",
+  "description": "Smart contract for sealed bid marketplace using blocklock encryption and OnlySwaps",
+  "scripts": {
+    "compile": "hardhat compile",
+    "deploy": "hardhat run scripts/deploy.js --network baseSepolia",
+    "test": "hardhat test"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "hardhat": "^2.22.0",
+    "dotenv": "^16.4.5"
+  },
+  "dependencies": {
+    "blocklock-solidity": "^0.0.13",
+    "onlyswaps-solidity": "^0.0.9",
+    "@openzeppelin/contracts": "^5.0.0"
+  }
+}

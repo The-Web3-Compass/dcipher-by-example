@@ -1,0 +1,20 @@
+{
+  "name": "crosschain-lottery-contract",
+  "version": "1.0.0",
+  "description": "Cross-chain lottery using dcipher randomness and onlyswaps",
+  "scripts": {
+    "compile": "hardhat compile",
+    "deploy:base": "hardhat run scripts/deploy.js --network baseSepolia",
+    "deploy:avax": "hardhat run scripts/deploy.js --network avalancheFuji",
+    "test": "hardhat test"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "hardhat": "^2.22.0",
+    "dotenv": "^16.4.5"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.0.0",
+    "randomness-solidity": "^0.0.10",
+    "onlyswaps-solidity": "^0.0.9"  }
+}
