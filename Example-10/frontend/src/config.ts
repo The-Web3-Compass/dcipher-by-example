@@ -1,0 +1,9 @@
+export const GATEWAY_ADDRESS = '0x9a957CBf2938A8f18cC622dCa7452003A3e8f154' as const;
+export const SOURCE_TOKEN = '0xFDdcB87aFED6B20cF7616A7339Bc5f8aC37154C3' as const;
+
+export const CHAIN_ID = 43113;
+export const SETTLEMENT_CHAIN_ID = 84532;
+export const SETTLEMENT_TOKEN = '0x9Eb392A6286138E5d59a40Da5398e567Ab3AAd7c' as const;
+
+export const DEFAULT_SOLVER_FEE = '0.01';
+export const DEFAULT_SLIPPAGE = 0.05;
