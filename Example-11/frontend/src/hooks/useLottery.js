@@ -25,7 +25,7 @@ export function useLottery(chainId) {
           abi: LOTTERY_ABI,
           functionName: 'lotteryId',
         })
-        
+
         console.log('Lottery ID fetched:', result.toString())
         setCurrentLotteryId(result)
       } catch (error) {
@@ -196,7 +196,7 @@ export function useDrawWinner() {
       abi: LOTTERY_ABI,
       functionName: 'drawWinner',
       args: [lotteryId, 200000],
-      value: parseEther('0.001'),
+      value: parseEther('0.0001'),
     })
   }
 
